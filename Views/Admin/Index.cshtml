@@ -1,0 +1,367 @@
+@model AppleStoreWeb.Models.WebsiteStats
+@{
+    ViewData["Title"] = "Apple Store - Bảng điều khiển quản trị";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1><i class="fab fa-apple me-2"></i>Apple Store - Bảng điều khiển quản trị</h1>
+                <div class="text-muted">
+                    <i class="fas fa-clock me-1"></i>Cập nhật lúc: @DateTime.Now.ToString("dd/MM/yyyy HH:mm")
+                </div>
+            </div>
+
+            <!-- Website Status Banner -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="alert alert-success border-left-success shadow" role="alert">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <i class="fas fa-check-circle fa-2x text-success"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="alert-heading mb-1">🍎 Apple Store đang hoạt động bình thường!</h4>
+                                        <p class="mb-0">Website bán sản phẩm công nghệ Apple đang vận hành ổn định. Tất cả dịch vụ đang hoạt động tốt.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="text-center">
+                                    <div class="h5 text-success mb-0">
+                                        <i class="fas fa-signal me-1"></i>99.9%
+                                    </div>
+                                    <small class="text-muted">Uptime</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Tổng sản phẩm
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalProducts</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-box fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Tổng đơn hàng
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalOrders</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-shopping-cart fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Tổng khách hàng
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalCustomers</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Tổng doanh thu
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalRevenue.ToString("N0") ₫</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Today's Statistics -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Hôm nay</h6>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+                        <div class="h4 text-primary">@Model.TodayOrders</div>
+                        <div class="text-muted">Đơn hàng mới</div>
+                        <hr>
+                        <div class="h5 text-success">@Model.TodayRevenue.ToString("N0") ₫</div>
+                        <div class="text-muted">Doanh thu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-success">Tháng này</h6>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+                        <div class="h4 text-success">@ViewBag.ThisMonthOrders</div>
+                        <div class="text-muted">Đơn hàng</div>
+                        <hr>
+                        @{
+                            var growth = ViewBag.LastMonthOrders > 0 ?
+                                Math.Round(((decimal)ViewBag.ThisMonthOrders - ViewBag.LastMonthOrders) / ViewBag.LastMonthOrders * 100, 1) : 0;
+                        }
+                        <div class="h6 @(growth >= 0 ? "text-success" : "text-danger")">
+                            <i class="fas fa-arrow-@(growth >= 0 ? "up" : "down")"></i> @Math.Abs(growth)%
+                        </div>
+                        <div class="text-muted">So với tháng trước</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-info">Đơn hàng đang xử lý</h6>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+                        <div class="h4 text-warning">@ViewBag.PendingOrders</div>
+                        <div class="text-muted">Chờ xử lý</div>
+                        <hr>
+                        <div class="h5 text-info">@ViewBag.ShippingOrders</div>
+                        <div class="text-muted">Đang giao hàng</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-warning">Hoạt động</h6>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+                        <div class="h4 text-info">@Model.OnlineUsers</div>
+                        <div class="text-muted">Người dùng online</div>
+                        <hr>
+                        <div class="h5 text-warning">@Model.ConversionRate%</div>
+                        <div class="text-muted">Tỷ lệ chuyển đổi</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activities and Top Products -->
+    <div class="row mb-4">
+        <div class="col-xl-8">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Đơn hàng gần đây</h6>
+                </div>
+                <div class="card-body">
+                    @if (ViewBag.RecentOrders != null && ((IEnumerable<dynamic>)ViewBag.RecentOrders).Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Mã đơn</th>
+                                        <th>Khách hàng</th>
+                                        <th>Thời gian</th>
+                                        <th>Tổng tiền</th>
+                                        <th>Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var order in (IEnumerable<dynamic>)ViewBag.RecentOrders)
+                                    {
+                                        <tr>
+                                            <td><small>#@order.Id.Substring(0, 8)</small></td>
+                                            <td>@order.UserName</td>
+                                            <td><small>@order.CreatedAt.ToString("dd/MM HH:mm")</small></td>
+                                            <td><strong>@order.Total.ToString("N0") ₫</strong></td>
+                                            <td>
+                                                @switch (order.Status)
+                                                {
+                                                    case "pending":
+                                                        <span class="badge bg-warning text-dark">Chờ xử lý</span>
+                                                        break;
+                                                    case "confirmed":
+                                                        <span class="badge bg-info">Đã xác nhận</span>
+                                                        break;
+                                                    case "shipping":
+                                                        <span class="badge bg-primary">Đang giao</span>
+                                                        break;
+                                                    case "delivered":
+                                                        <span class="badge bg-success">Đã giao</span>
+                                                        break;
+                                                    case "cancelled":
+                                                        <span class="badge bg-danger">Đã hủy</span>
+                                                        break;
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-3">
+                            <i class="fas fa-shopping-cart fa-2x text-muted mb-2"></i>
+                            <p class="text-muted">Chưa có đơn hàng nào</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-success">Sản phẩm bán chạy</h6>
+                </div>
+                <div class="card-body">
+                    @if (ViewBag.TopProducts != null && ((IEnumerable<dynamic>)ViewBag.TopProducts).Any())
+                    {
+                        @foreach (var product in (IEnumerable<dynamic>)ViewBag.TopProducts)
+                        {
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <div class="fw-bold">@product.ProductName</div>
+                                    <small class="text-muted">Đã bán: @product.TotalSold</small>
+                                </div>
+                                <div class="text-end">
+                                    <div class="fw-bold text-success">@product.Revenue.ToString("N0") ₫</div>
+                                </div>
+                            </div>
+                            <hr class="my-2">
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center py-3">
+                            <i class="fas fa-chart-line fa-2x text-muted mb-2"></i>
+                            <p class="text-muted">Chưa có dữ liệu bán hàng</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thao tác nhanh</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Products")" class="btn btn-primary btn-block">
+                                <i class="fas fa-mobile-alt me-2"></i>Quản lý sản phẩm Apple
+                                <div class="small">@Model.TotalProducts sản phẩm Apple</div>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Orders")" class="btn btn-success btn-block">
+                                <i class="fas fa-shopping-cart me-2"></i>Quản lý đơn hàng
+                                <div class="small">@ViewBag.PendingOrders đơn chờ xử lý</div>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Customers")" class="btn btn-info btn-block">
+                                <i class="fas fa-users me-2"></i>Quản lý khách hàng
+                                <div class="small">@Model.TotalCustomers khách hàng</div>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Index", "Home")" class="btn btn-outline-secondary btn-block">
+                                <i class="fab fa-apple me-2"></i>Xem Apple Store
+                                <div class="small">@ViewBag.LowStockProducts sản phẩm sắp hết</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.border-left-primary {
+    border-left: 0.25rem solid #4e73df !important;
+}
+
+.border-left-success {
+    border-left: 0.25rem solid #1cc88a !important;
+}
+
+.border-left-info {
+    border-left: 0.25rem solid #36b9cc !important;
+}
+
+.border-left-warning {
+    border-left: 0.25rem solid #f6c23e !important;
+}
+
+.text-gray-800 {
+    color: #5a5c69 !important;
+}
+
+.text-gray-300 {
+    color: #dddfeb !important;
+}
+
+.btn-block {
+    width: 100%;
+}
+</style>

@@ -1,0 +1,38 @@
+@{
+    ViewData["Title"] = "Truy cập bị từ chối";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="text-center py-5">
+                <i class="fas fa-ban fa-5x text-danger mb-4"></i>
+                <h1 class="display-4 text-danger">403</h1>
+                <h2>Truy cập bị từ chối</h2>
+                <p class="lead text-muted">
+                    Bạn không có quyền truy cập vào trang này. 
+                    Vui lòng liên hệ quản trị viên nếu bạn cho rằng đây là lỗi.
+                </p>
+                <div class="mt-4">
+                    <a href="@Url.Action("Index", "Home")" class="btn btn-primary me-2">
+                        <i class="fas fa-home me-2"></i>Về trang chủ
+                    </a>
+                    @if (User.Identity!.IsAuthenticated)
+                    {
+                        <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-outline-secondary">
+                                <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Login", "Account")" class="btn btn-outline-secondary">
+                            <i class="fas fa-sign-in-alt me-2"></i>Đăng nhập
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

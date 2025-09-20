@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Apple Store</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ShoeStoreWeb.styles.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
+                    <i class="fab fa-apple me-2"></i>Apple Store
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Trang chủ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Products" asp-action="Index">Sản phẩm</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="About">Giới thiệu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Contact">Liên hệ</a>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex align-items-center">
+                        <!-- Search -->
+                        <form class="d-flex me-3" asp-controller="Products" asp-action="Index" method="get">
+                            <input class="form-control me-2" type="search" name="filter.Search" placeholder="Tìm kiếm..." style="width: 200px;">
+                            <button class="btn btn-outline-light" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+
+                        <!-- Cart -->
+                        <a class="btn btn-outline-light me-2 position-relative" asp-controller="Cart" asp-action="Index">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">
+                                0
+                            </span>
+                        </a>
+
+                        <!-- User menu -->
+                        @if (User.Identity!.IsAuthenticated)
+                        {
+                            <div class="dropdown">
+                                <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-user"></i> @User.Identity.Name
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-controller="Orders" asp-action="Index">Đơn hàng của tôi</a></li>
+                                    @if (User.IsInRole("admin"))
+                                    {
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="Index">Quản trị</a></li>
+                                    }
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                            <button type="submit" class="dropdown-item">Đăng xuất</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <a class="btn btn-outline-light me-2" asp-controller="Account" asp-action="Login">Đăng nhập</a>
+                            <a class="btn btn-light" asp-controller="Account" asp-action="Register">Đăng ký</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="bg-dark text-light mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><i class="fab fa-apple me-2"></i>Apple Store</h5>
+                    <p>Cửa hàng công nghệ Apple hàng đầu với những sản phẩm chính hãng và dịch vụ tốt nhất.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Liên kết nhanh</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Trang chủ</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Sản phẩm</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Giới thiệu</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Liên hệ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Liên hệ</h5>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>123 Đường ABC, Quận 1, TP.HCM</p>
+                    <p><i class="fas fa-phone me-2"></i>0123 456 789</p>
+                    <p><i class="fas fa-envelope me-2"></i>info@applestore.com</p>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 Apple Store. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Update cart count on page load
+            updateCartCount();
+
+            // Add to cart functionality
+            $('.add-to-cart-btn').click(function() {
+                var productId = $(this).data('product-id');
+                var productName = $(this).data('product-name');
+
+                // For now, use default size and color - in a real app, you'd show a modal to select these
+                addToCart(productId, '42', 'Đen', 1, productName);
+            });
+        });
+
+        function updateCartCount() {
+            $.get('@Url.Action("GetCartCount", "Cart")', function(data) {
+                $('#cart-count').text(data.count);
+            });
+        }
+
+        function addToCart(productId, size, color, quantity, productName) {
+            $.post('@Url.Action("AddToCart", "Cart")', {
+                productId: productId,
+                size: size,
+                color: color,
+                quantity: quantity
+            }, function(data) {
+                if (data.success) {
+                    $('#cart-count').text(data.cartCount);
+
+                    // Show success message
+                    var toast = $('<div class="toast position-fixed top-0 end-0 m-3" style="z-index: 9999;">' +
+                        '<div class="toast-header bg-success text-white">' +
+                        '<strong class="me-auto">Thành công</strong>' +
+                        '<button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>' +
+                        '</div>' +
+                        '<div class="toast-body">' +
+                        'Đã thêm "' + productName + '" vào giỏ hàng!' +
+                        '</div>' +
+                        '</div>');
+
+                    $('body').append(toast);
+                    var toastEl = new bootstrap.Toast(toast[0]);
+                    toastEl.show();
+
+                    // Remove toast after it's hidden
+                    toast.on('hidden.bs.toast', function() {
+                        $(this).remove();
+                    });
+                } else {
+                    alert(data.message || 'Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng');
+                }
+            });
+        }
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

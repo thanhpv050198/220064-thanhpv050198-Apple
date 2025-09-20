@@ -1,0 +1,70 @@
+@model AppleStoreWeb.Models.Order
+@{
+    ViewData["Title"] = "Chi tiết đơn hàng";
+}
+
+<div class="container mt-4">
+    <h2>Chi tiết đơn hàng #@Model.Id.Substring(0, 8)</h2>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Sản phẩm đã đặt</h5>
+                </div>
+                <div class="card-body">
+                    @foreach (var item in Model.Items)
+                    {
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <h6>@item.Product?.Name</h6>
+                                <p class="text-muted">@item.StorageOption - @item.Color</p>
+                            </div>
+                            <div class="col-md-2">
+                                <p>SL: @item.Quantity</p>
+                            </div>
+                            <div class="col-md-2">
+                                <p class="fw-bold">@item.UnitPrice.ToString("N0") ₫</p>
+                            </div>
+                        </div>
+                        <hr>
+                    }
+                    <div class="text-end">
+                        <h5>Tổng cộng: @Model.Total.ToString("N0") ₫</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Thông tin đơn hàng</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Mã đơn:</strong> @Model.Id</p>
+                    <p><strong>Ngày đặt:</strong> @Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</p>
+                    <p><strong>Trạng thái:</strong> 
+                        @switch (Model.Status)
+                        {
+                            case "pending":
+                                <span class="badge bg-warning">Chờ xử lý</span>
+                                break;
+                            case "confirmed":
+                                <span class="badge bg-info">Đã xác nhận</span>
+                                break;
+                            case "shipping":
+                                <span class="badge bg-primary">Đang giao</span>
+                                break;
+                            case "delivered":
+                                <span class="badge bg-success">Đã giao</span>
+                                break;
+                        }
+                    </p>
+                    <p><strong>Thanh toán:</strong> @Model.PaymentMethod</p>
+                    <p><strong>Địa chỉ:</strong> @Model.ShippingAddress</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

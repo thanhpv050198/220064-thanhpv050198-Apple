@@ -1,0 +1,26 @@
+TÀI KHOẢN ADMIN - APPLE STORE WEB
+=====================================
+
+Email: admin@applestore.com
+Mật khẩu: AppleAdmin@2025
+Vai trò: admin
+
+TÀI KHOẢN KHÁCH HÀNG MẪU
+========================
+
+Email: customer@example.com
+Mật khẩu: Customer@123456
+Vai trò: customer
+
+HƯỚNG DẪN ĐĂNG NHẬP
+==================
+1. Truy cập: http://localhost:5000
+2. Nhấn "Đăng nhập" ở góc phải trên
+3. Nhập email và mật khẩu
+4. Admin có thể truy cập /Admin để quản lý
+
+LƯU Ý
+=====
+- Tài khoản được tạo tự động khi chạy ứng dụng lần đầu
+- Database: AppleStoreWeb.db
+- Dữ liệu mẫu sản phẩm Apple đã được seed

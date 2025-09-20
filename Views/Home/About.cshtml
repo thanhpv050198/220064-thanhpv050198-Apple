@@ -1,0 +1,118 @@
+@{
+    ViewData["Title"] = "Giới thiệu";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-center mb-5">
+                <i class="fas fa-info-circle me-2"></i>Giới thiệu về Apple Store
+            </h1>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-lg-6">
+            <h2>Câu chuyện của chúng tôi</h2>
+            <p class="lead">
+                Apple Store được thành lập với sứ mệnh mang đến những sản phẩm công nghệ Apple chính hãng 
+                và dịch vụ tốt nhất đến với người tiêu dùng Việt Nam.
+            </p>
+            <p>
+                Với hơn 10 năm kinh nghiệm trong ngành công nghệ, chúng tôi hiểu rõ nhu cầu và 
+                mong muốn của khách hàng. Từ những chuyên gia công nghệ đến những người yêu 
+                thích sản phẩm Apple, chúng tôi có những sản phẩm phù hợp cho mọi 
+                đối tượng khách hàng.
+            </p>
+        </div>
+        <div class="col-lg-6">
+            <img src="/images/about-us.jpg" class="img-fluid rounded shadow" alt="Về chúng tôi">
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-center mb-4">Tại sao chọn Apple Store?</h2>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="text-center">
+                <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                    <i class="fas fa-certificate fa-2x"></i>
+                </div>
+                <h4>Chính hãng 100%</h4>
+                <p>Tất cả sản phẩm đều được nhập khẩu chính hãng từ các nhà phân phối ủy quyền.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="text-center">
+                <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                    <i class="fas fa-shipping-fast fa-2x"></i>
+                </div>
+                <h4>Giao hàng nhanh</h4>
+                <p>Giao hàng miễn phí toàn quốc trong vòng 2-3 ngày làm việc.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="text-center">
+                <div class="bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                    <i class="fas fa-undo fa-2x"></i>
+                </div>
+                <h4>Đổi trả dễ dàng</h4>
+                <p>Chính sách đổi trả trong vòng 30 ngày nếu sản phẩm có lỗi từ nhà sản xuất.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-center mb-4">Dòng sản phẩm</h2>
+            <div class="row text-center">
+                <div class="col-md-2 col-4 mb-3">
+                    <div class="border rounded p-3 h-100 d-flex align-items-center justify-content-center">
+                        <strong>iPhone</strong>
+                    </div>
+                </div>
+                <div class="col-md-2 col-4 mb-3">
+                    <div class="border rounded p-3 h-100 d-flex align-items-center justify-content-center">
+                        <strong>iPad</strong>
+                    </div>
+                </div>
+                <div class="col-md-2 col-4 mb-3">
+                    <div class="border rounded p-3 h-100 d-flex align-items-center justify-content-center">
+                        <strong>Mac</strong>
+                    </div>
+                </div>
+                <div class="col-md-2 col-4 mb-3">
+                    <div class="border rounded p-3 h-100 d-flex align-items-center justify-content-center">
+                        <strong>Apple Watch</strong>
+                    </div>
+                </div>
+                <div class="col-md-2 col-4 mb-3">
+                    <div class="border rounded p-3 h-100 d-flex align-items-center justify-content-center">
+                        <strong>AirPods</strong>
+                    </div>
+                </div>
+                <div class="col-md-2 col-4 mb-3">
+                    <div class="border rounded p-3 h-100 d-flex align-items-center justify-content-center">
+                        <strong>Phụ kiện</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="bg-light rounded p-4 text-center">
+                <h3>Liên hệ với chúng tôi</h3>
+                <p class="mb-3">Bạn có câu hỏi hoặc cần hỗ trợ? Đừng ngần ngại liên hệ với chúng tôi!</p>
+                <a href="@Url.Action("Contact")" class="btn btn-primary me-2">
+                    <i class="fas fa-envelope me-2"></i>Liên hệ ngay
+                </a>
+                <a href="@Url.Action("Index", "Products")" class="btn btn-outline-primary">
+                    <i class="fas fa-shopping-bag me-2"></i>Xem sản phẩm
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

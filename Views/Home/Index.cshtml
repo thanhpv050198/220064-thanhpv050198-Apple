@@ -1,0 +1,104 @@
+﻿@model IEnumerable<AppleStoreWeb.Models.Product>
+@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<!-- Hero Section -->
+<div class="hero-section bg-primary text-white py-5 mb-5 rounded">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold">Chào mừng đến với Apple Store</h1>
+        <p class="lead">Khám phá bộ sưu tập sản phẩm Apple chính hãng với công nghệ tiên tiến nhất</p>
+        <a class="btn btn-light btn-lg" asp-controller="Products" asp-action="Index">
+            <i class="fas fa-shopping-bag me-2"></i>Mua sắm ngay
+        </a>
+    </div>
+</div>
+
+<!-- Featured Products -->
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-center mb-4">
+                <i class="fas fa-star text-warning me-2"></i>Sản phẩm nổi bật
+            </h2>
+        </div>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row">
+            @foreach (var product in Model)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        @{
+                            var images = System.Text.Json.JsonSerializer.Deserialize<string[]>(product.Images);
+                            var firstImage = images?.FirstOrDefault() ?? "/images/placeholder.jpg";
+                        }
+                        <img src="@firstImage" class="card-img-top" alt="@product.Name" style="height: 250px; object-fit: cover;">
+
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="text-muted mb-2">@product.Brand</p>
+                            <p class="card-text flex-grow-1">@product.Description</p>
+
+                            <div class="mt-auto">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    @if (product.OriginalPrice.HasValue && product.OriginalPrice > product.Price)
+                                    {
+                                        <span class="text-muted text-decoration-line-through">@product.OriginalPrice.Value.ToString("N0") ₫</span>
+                                    }
+                                    <span class="h5 text-primary mb-0">@product.Price.ToString("N0") ₫</span>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">
+                                        <i class="fas fa-star text-warning"></i> @product.Rating (@product.Reviews đánh giá)
+                                    </small>
+                                </div>
+
+                                <div class="mt-2">
+                                    <a class="btn btn-primary btn-sm me-2" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
+                                        <i class="fas fa-eye me-1"></i>Xem chi tiết
+                                    </a>
+                                    <button class="btn btn-outline-primary btn-sm add-to-cart-btn"
+                                            data-product-id="@product.Id"
+                                            data-product-name="@product.Name">
+                                        <i class="fas fa-cart-plus me-1"></i>Thêm vào giỏ
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+            <h4 class="text-muted">Chưa có sản phẩm nổi bật</h4>
+        </div>
+    }
+
+    <div class="text-center mt-4">
+        <a class="btn btn-outline-primary btn-lg" asp-controller="Products" asp-action="Index">
+            <i class="fas fa-arrow-right me-2"></i>Xem tất cả sản phẩm
+        </a>
+    </div>
+</div>
+
+<style>
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+</style>

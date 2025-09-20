@@ -1,0 +1,213 @@
+@model IEnumerable<AppleStoreWeb.Models.Product>
+@{
+    ViewData["Title"] = "Quản lý sản phẩm";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1><i class="fas fa-box me-2"></i>Quản lý sản phẩm</h1>
+                <div>
+                    <a href="@Url.Action("Index")" class="btn btn-outline-secondary me-2">
+                        <i class="fas fa-arrow-left me-1"></i>Về dashboard
+                    </a>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                        <i class="fas fa-plus me-1"></i>Thêm sản phẩm
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Danh sách sản phẩm (@Model.Count() sản phẩm)</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Hình ảnh</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Thương hiệu</th>
+                                    <th>Danh mục</th>
+                                    <th>Giá</th>
+                                    <th>Tồn kho</th>
+                                    <th>Nổi bật</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var product in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @{
+                                                var images = System.Text.Json.JsonSerializer.Deserialize<string[]>(product.Images);
+                                                var firstImage = images?.FirstOrDefault() ?? "/images/placeholder.jpg";
+                                            }
+                                            <img src="@firstImage" alt="@product.Name" style="width: 60px; height: 60px; object-fit: cover;" class="rounded">
+                                        </td>
+                                        <td>
+                                            <div class="fw-bold">@product.Name</div>
+                                            <small class="text-muted">@product.Description.Substring(0, Math.Min(50, product.Description.Length))...</small>
+                                        </td>
+                                        <td>@product.Brand</td>
+                                        <td>
+                                            <span class="badge bg-secondary">
+                                                @(product.Category == "men" ? "Nam" : 
+                                                  product.Category == "women" ? "Nữ" : "Trẻ em")
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="fw-bold text-primary">@product.Price.ToString("N0") ₫</div>
+                                            @if (product.OriginalPrice.HasValue && product.OriginalPrice > product.Price)
+                                            {
+                                                <small class="text-muted text-decoration-line-through">@product.OriginalPrice.Value.ToString("N0") ₫</small>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (product.InStock)
+                                            {
+                                                <span class="badge bg-success">Còn hàng</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Hết hàng</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (product.Featured)
+                                            {
+                                                <span class="badge bg-warning text-dark">
+                                                    <i class="fas fa-star me-1"></i>Nổi bật
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-light text-dark">Thường</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a href="@Url.Action("Details", "Products", new { id = product.Id })" 
+                                                   class="btn btn-sm btn-outline-info" target="_blank">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <button class="btn btn-sm btn-outline-primary edit-product-btn" 
+                                                        data-product-id="@product.Id">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-warning toggle-stock-btn" 
+                                                        data-product-id="@product.Id" 
+                                                        data-in-stock="@product.InStock.ToString().ToLower()">
+                                                    <i class="fas fa-@(product.InStock ? "eye-slash" : "eye")"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger delete-product-btn" 
+                                                        data-product-id="@product.Id" 
+                                                        data-product-name="@product.Name">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Product Modal -->
+<div class="modal fade" id="addProductModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm sản phẩm mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Chức năng thêm/sửa sản phẩm sẽ được phát triển trong phiên bản tiếp theo.
+                    Hiện tại bạn có thể quản lý trạng thái tồn kho của sản phẩm.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Toggle stock status
+            $('.toggle-stock-btn').click(function() {
+                var productId = $(this).data('product-id');
+                var button = $(this);
+                
+                $.post('@Url.Action("ToggleProductStock")', { productId: productId }, function(data) {
+                    if (data.success) {
+                        var row = button.closest('tr');
+                        var stockCell = row.find('td:nth-child(6)');
+                        var icon = button.find('i');
+                        
+                        if (data.inStock) {
+                            stockCell.html('<span class="badge bg-success">Còn hàng</span>');
+                            icon.removeClass('fa-eye').addClass('fa-eye-slash');
+                        } else {
+                            stockCell.html('<span class="badge bg-danger">Hết hàng</span>');
+                            icon.removeClass('fa-eye-slash').addClass('fa-eye');
+                        }
+                        
+                        // Show success message
+                        showToast('Cập nhật trạng thái thành công!', 'success');
+                    } else {
+                        showToast(data.message || 'Có lỗi xảy ra', 'error');
+                    }
+                });
+            });
+
+            // Delete product (placeholder)
+            $('.delete-product-btn').click(function() {
+                var productName = $(this).data('product-name');
+                if (confirm('Bạn có chắc chắn muốn xóa sản phẩm "' + productName + '"?')) {
+                    showToast('Chức năng xóa sản phẩm sẽ được phát triển trong phiên bản tiếp theo.', 'info');
+                }
+            });
+
+            // Edit product (placeholder)
+            $('.edit-product-btn').click(function() {
+                showToast('Chức năng sửa sản phẩm sẽ được phát triển trong phiên bản tiếp theo.', 'info');
+            });
+        });
+
+        function showToast(message, type) {
+            var bgClass = type === 'success' ? 'bg-success' : type === 'error' ? 'bg-danger' : 'bg-info';
+            var toast = $('<div class="toast position-fixed top-0 end-0 m-3" style="z-index: 9999;">' +
+                '<div class="toast-header ' + bgClass + ' text-white">' +
+                '<strong class="me-auto">Thông báo</strong>' +
+                '<button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>' +
+                '</div>' +
+                '<div class="toast-body">' + message + '</div>' +
+                '</div>');
+            
+            $('body').append(toast);
+            var toastEl = new bootstrap.Toast(toast[0]);
+            toastEl.show();
+            
+            toast.on('hidden.bs.toast', function() {
+                $(this).remove();
+            });
+        }
+    </script>
+}

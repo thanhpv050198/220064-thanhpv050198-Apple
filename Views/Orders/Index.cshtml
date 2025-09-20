@@ -1,0 +1,55 @@
+@model IEnumerable<AppleStoreWeb.Models.Order>
+@{
+    ViewData["Title"] = "Đơn hàng của tôi";
+}
+
+<div class="container mt-4">
+    <h2><i class="fas fa-shopping-bag me-2"></i>Đơn hàng của tôi</h2>
+    <hr>
+
+    @if (Model.Any())
+    {
+        <div class="row">
+            @foreach (var order in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <h6>#@order.Id.Substring(0, 8)</h6>
+                            @switch (order.Status)
+                            {
+                                case "pending":
+                                    <span class="badge bg-warning">Chờ xử lý</span>
+                                    break;
+                                case "confirmed":
+                                    <span class="badge bg-info">Đã xác nhận</span>
+                                    break;
+                                case "shipping":
+                                    <span class="badge bg-primary">Đang giao</span>
+                                    break;
+                                case "delivered":
+                                    <span class="badge bg-success">Đã giao</span>
+                                    break;
+                            }
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Ngày:</strong> @order.CreatedAt.ToString("dd/MM/yyyy")</p>
+                            <p><strong>Tổng:</strong> @order.Total.ToString("N0") ₫</p>
+                            <p><strong>Sản phẩm:</strong> @order.Items.Count</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="@Url.Action("Details", new { id = order.Id })" class="btn btn-sm btn-primary">Chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <h4>Chưa có đơn hàng nào</h4>
+            <a href="@Url.Action("Index", "Products")" class="btn btn-primary">Mua sắm ngay</a>
+        </div>
+    }
+</div>

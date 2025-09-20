@@ -1,0 +1,228 @@
+@model IEnumerable<AppleStoreWeb.Models.Product>
+@{
+    ViewData["Title"] = "Sản phẩm";
+    var filter = ViewBag.Filter as AppleStoreWeb.Models.FilterState;
+    var categories = ViewBag.Categories as List<string>;
+    var brands = ViewBag.Brands as List<string>;
+    var productTypes = ViewBag.ProductTypes as List<string>;
+    var storageOptions = ViewBag.StorageOptions as List<string>;
+    var colors = ViewBag.Colors as List<string>;
+}
+
+<div class="container">
+    <div class="row">
+        <!-- Filters Sidebar -->
+        <div class="col-lg-3 col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Bộ lọc</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Index" method="get">
+                        <!-- Search -->
+                        <div class="mb-3">
+                            <label class="form-label">Tìm kiếm</label>
+                            <input type="text" class="form-control" name="filter.Search" value="@filter?.Search" placeholder="Tên sản phẩm, thương hiệu...">
+                        </div>
+
+                        <!-- Category -->
+                        <div class="mb-3">
+                            <label class="form-label">Danh mục</label>
+                            <select class="form-select" name="filter.Category">
+                                <option value="">Tất cả</option>
+                                @if (categories != null)
+                                {
+                                    @foreach (var category in categories)
+                                    {
+                                        <option value="@category" selected="@(filter?.Category == category)">
+                                            @(category == "men" ? "Nam" : category == "women" ? "Nữ" : "Trẻ em")
+                                        </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Brand -->
+                        <div class="mb-3">
+                            <label class="form-label">Thương hiệu</label>
+                            <select class="form-select" name="filter.Brand">
+                                <option value="">Tất cả</option>
+                                @if (brands != null)
+                                {
+                                    @foreach (var brand in brands)
+                                    {
+                                        <option value="@brand" selected="@(filter?.Brand == brand)">@brand</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Product Type -->
+                        <div class="mb-3">
+                            <label class="form-label">Loại sản phẩm</label>
+                            <select class="form-select" name="filter.ProductType">
+                                <option value="">Tất cả</option>
+                                @if (productTypes != null)
+                                {
+                                    @foreach (var productType in productTypes)
+                                    {
+                                        <option value="@productType" selected="@(filter?.ProductType == productType)">
+                                            @productType
+                                        </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Price Range -->
+                        <div class="mb-3">
+                            <label class="form-label">Khoảng giá</label>
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="number" class="form-control" name="filter.MinPrice" value="@filter?.MinPrice" placeholder="Từ" min="0">
+                                </div>
+                                <div class="col-6">
+                                    <input type="number" class="form-control" name="filter.MaxPrice" value="@filter?.MaxPrice" placeholder="Đến" min="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Storage -->
+                        <div class="mb-3">
+                            <label class="form-label">Dung lượng</label>
+                            <select class="form-select" name="filter.StorageOption">
+                                <option value="">Tất cả</option>
+                                @if (storageOptions != null)
+                                {
+                                    @foreach (var storage in storageOptions.OrderBy(s => s))
+                                    {
+                                        <option value="@storage" selected="@(filter?.StorageOption == storage)">@storage</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Color -->
+                        <div class="mb-3">
+                            <label class="form-label">Màu sắc</label>
+                            <select class="form-select" name="filter.Color">
+                                <option value="">Tất cả</option>
+                                @if (colors != null)
+                                {
+                                    @foreach (var color in colors)
+                                    {
+                                        <option value="@color" selected="@(filter?.Color == color)">@color</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-search me-2"></i>Lọc sản phẩm
+                        </button>
+                        <a href="@Url.Action("Index")" class="btn btn-outline-secondary w-100 mt-2">
+                            <i class="fas fa-undo me-2"></i>Xóa bộ lọc
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="col-lg-9 col-md-8">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="fas fa-shopping-bag me-2"></i>Sản phẩm</h2>
+                <span class="text-muted">Tìm thấy @Model.Count() sản phẩm</span>
+            </div>
+
+            @if (Model.Any())
+            {
+                <div class="row">
+                    @foreach (var product in Model)
+                    {
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                @{
+                                    var images = System.Text.Json.JsonSerializer.Deserialize<string[]>(product.Images);
+                                    var firstImage = images?.FirstOrDefault() ?? "/images/placeholder.jpg";
+                                }
+                                <img src="@firstImage" class="card-img-top" alt="@product.Name" style="height: 250px; object-fit: cover;">
+                                
+                                @if (product.Featured)
+                                {
+                                    <div class="position-absolute top-0 start-0 m-2">
+                                        <span class="badge bg-warning text-dark">
+                                            <i class="fas fa-star me-1"></i>Nổi bật
+                                        </span>
+                                    </div>
+                                }
+                                
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">@product.Name</h5>
+                                    <p class="text-muted mb-2">@product.Brand</p>
+                                    <p class="card-text flex-grow-1">@product.Description</p>
+                                    
+                                    <div class="mt-auto">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            @if (product.OriginalPrice.HasValue && product.OriginalPrice > product.Price)
+                                            {
+                                                <span class="text-muted text-decoration-line-through">@product.OriginalPrice.Value.ToString("N0") ₫</span>
+                                            }
+                                            <span class="h5 text-primary mb-0">@product.Price.ToString("N0") ₫</span>
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <small class="text-muted">
+                                                <i class="fas fa-star text-warning"></i> @product.Rating (@product.Reviews đánh giá)
+                                            </small>
+                                            @if (product.InStock)
+                                            {
+                                                <span class="badge bg-success">Còn hàng</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Hết hàng</span>
+                                            }
+                                        </div>
+                                        
+                                        <div class="mt-2">
+                                            <a class="btn btn-primary btn-sm me-2" asp-action="Details" asp-route-id="@product.Id">
+                                                <i class="fas fa-eye me-1"></i>Chi tiết
+                                            </a>
+                                            @if (product.InStock)
+                                            {
+                                                <button class="btn btn-outline-primary btn-sm add-to-cart-btn" 
+                                                        data-product-id="@product.Id" 
+                                                        data-product-name="@product.Name">
+                                                    <i class="fas fa-cart-plus me-1"></i>Thêm vào giỏ
+                                                </button>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                    <h4 class="text-muted">Không tìm thấy sản phẩm nào</h4>
+                    <p class="text-muted">Hãy thử thay đổi bộ lọc để tìm kiếm sản phẩm khác.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+</style>
